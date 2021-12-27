@@ -1,0 +1,21 @@
+// ./vscode/launch.json
+{
+    // Используйте IntelliSense, чтобы узнать о возможных атрибутах.
+    // Наведите указатель мыши, чтобы просмотреть описания существующих атрибутов.
+    // Для получения дополнительной информации посетите: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node", // "pwa-node",
+            "request": "attach", //"launch",
+            "name": "Attach by Process ID",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            //"program": "${workspaceFolder}\\pages\\_app.tsx",
+            //"outFiles": [ "${workspaceFolder}/**/*.js"
+            //],
+            "port": 9229
+        }
+    ]
+}
