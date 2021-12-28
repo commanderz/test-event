@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { setInterval, clearInterval } from 'timers';
+import React, { useState, useEffect } from 'react';
+import { setInterval, setImmediate, setTimeout, clearInterval, clearImmediate, clearTimeout } from 'timers';
+import { ThemeContext, LocalteContext } from './context';
 //import { setInterval } from 'timers/promises';
 //import { TimerOptions } from 'timers';
 //import exp from 'constants';
@@ -14,7 +15,23 @@ const Counter = function CounterFunc(x1: { val2: number, key2: string }) {
     //установка хука (она вызвется только 1 раз):
     const [count, setCount] = useState(Number.parseInt(x1.val2.toString()));//тут якась хрінь з типом змінної x1.val2, обявлена як number але всі делають від що вона string
     const [stateTimerSet, setTimerTo] = useState(false);
+    //setInterval,setImmediate,setTimeout - 
     const [stateIntervalID, setIntervalTo] = useState(setInterval(() => { }, undefined));//попытка придумать пустую переменную типа NodeJS.Timer
+
+    useEffect(() => {
+        document.title = 'w=' + width;
+    });
+
+    const [width, setWidth] = useState(window.innerWidth);
+    useEffect(() => {
+        const handleResize = () => { setWidth(window.innerWidth) }
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener;
+        }
+    });
+
+
     //let intervalID: NodeJS.Timer;
     //console.log('tVal2=' + typeof x1.val2 + ', val2=' + x1.val2 + ', tKey2=' + typeof x1.key2 + ', key2=' + x1.key2 + ', tInterv=' + typeof intervalID + ', Interv=' + intervalID);
     //const [intervalID, setIntervalTo] = useState(NodeJS.Timer);
@@ -27,18 +44,19 @@ const Counter = function CounterFunc(x1: { val2: number, key2: string }) {
     //);
 
     function mySet(newVal: number) {
-        //    setCount(count + 1);
         setCount(newVal);
+        //setCount({ newVal: count });
         console.log('set=' + newVal);
     }
     function myReset() {
         setCount(x1.val2);
     }
-    function tick(a: string, b: string) {
+    function tick(a: number, b: string) {
         //mySet(count + 1);//  
         //setCount(count + 1);
-        mySet(count + Number.parseInt(a));
-        console.log('tick' + x1.key2 + '(' + stateIntervalID + '), a=' + a + ',b=' + b);
+
+        mySet(count + 1);
+        console.log('tick' + x1.key2 + '(), a=' + a + ',b=' + b + ', count=' + count);//stateIntervalID
     }
     function inc() { mySet(count + 1); }
     function dec() { mySet(count - 1); }
@@ -50,9 +68,10 @@ const Counter = function CounterFunc(x1: { val2: number, key2: string }) {
                 () => tick(),
                 1000
             );*/
+
             setIntervalTo(setInterval(tick, 1000, count, 'b'));
             setTimerTo(true);
-            console.log('SET timer' + x1.key2 + '(' + stateIntervalID + ')=' + stateTimerSet);
+            console.log('SET timer' + x1.key2 + '()=' + stateTimerSet);//stateIntervalID
             //return intervalID2;
         } else {
             //console.log('ALREADY timer' + x1.key2 + '(' + intervalID + ')=' + timerSet);
@@ -64,10 +83,13 @@ const Counter = function CounterFunc(x1: { val2: number, key2: string }) {
     function myClearTimer() {
         if (stateTimerSet === true) {  //(intervalID != undefined) {
             //console.log('timer' + x1.key2 + '(' + intervalID + ')=' + stateTimerSet);
-            console.log('timer' + x1.key2 + '(' + stateIntervalID + ')=' + stateTimerSet);
-            setTimerTo(false);
+
             clearInterval(stateIntervalID);
-            //clearInterval(intervalID);
+            setTimerTo(false);
+            console.log('timer' + x1.key2 + '()=' + stateTimerSet);//stateIntervalID
+
+
+
 
         }
 
