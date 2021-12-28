@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { setInterval, setImmediate, setTimeout, clearInterval, clearImmediate, clearTimeout } from 'timers';
-import { ThemeContext, LocalteContext } from './context';
+//import { ThemeContext, LocalteContext } from './context';
 //import { setInterval } from 'timers/promises';
 //import { TimerOptions } from 'timers';
 //import exp from 'constants';
@@ -17,19 +17,11 @@ const Counter = function CounterFunc(x1: { val2: number, key2: string }) {
     const [stateTimerSet, setTimerTo] = useState(false);
     //setInterval,setImmediate,setTimeout - 
     const [stateIntervalID, setIntervalTo] = useState(setInterval(() => { }, undefined));//попытка придумать пустую переменную типа NodeJS.Timer
-
+    const width = useCustomWidth();
     useEffect(() => {
         document.title = 'w=' + width;
     });
 
-    const [width, setWidth] = useState(window.innerWidth);
-    useEffect(() => {
-        const handleResize = () => { setWidth(window.innerWidth) }
-        window.addEventListener('resize', handleResize);
-        return () => {
-            window.removeEventListener;
-        }
-    });
 
 
     //let intervalID: NodeJS.Timer;
@@ -78,23 +70,28 @@ const Counter = function CounterFunc(x1: { val2: number, key2: string }) {
             //return intervalID;
         }
 
-
     }
     function myClearTimer() {
         if (stateTimerSet === true) {  //(intervalID != undefined) {
             //console.log('timer' + x1.key2 + '(' + intervalID + ')=' + stateTimerSet);
-
             clearInterval(stateIntervalID);
             setTimerTo(false);
             console.log('timer' + x1.key2 + '()=' + stateTimerSet);//stateIntervalID
-
-
-
-
         }
 
     }
+    function useCustomWidth() {
+        const [width, setWidth] = useState(window.innerWidth);
+        useEffect(() => {
+            const handleResize = () => { setWidth(window.innerWidth) }
+            window.addEventListener('resize', handleResize);
+            return () => {
+                window.removeEventListener;
+            }
+        });
+        return width;
 
+    }
 
     return (
         <div>
